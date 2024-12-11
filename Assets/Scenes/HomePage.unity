@@ -572,6 +572,7 @@ GameObject:
   - component: {fileID: 868496380}
   - component: {fileID: 868496379}
   - component: {fileID: 868496378}
+  - component: {fileID: 868496381}
   m_Layer: 5
   m_Name: Multiplayer
   m_TagString: Untagged
@@ -652,6 +653,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868496376}
   m_CullTransparentMesh: 0
+--- !u!114 &868496381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868496376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be132639bdfb9f4981d420e707d7857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: SpaceInvadersMultiplayer
 --- !u!1 &1199416752
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,7 +766,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29, y: 137}
+  m_AnchoredPosition: {x: 29, y: 123}
   m_SizeDelta: {x: 316.8357, y: 102.79108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460048141

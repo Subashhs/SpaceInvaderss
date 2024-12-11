@@ -14,12 +14,16 @@ public class GameManager : MonoBehaviour
     private Invaders invaders;
     private MysteryShip mysteryShip;
     private Bunker[] bunkers;
+    public AudioClip backgroundMusic;  // The background music to play
+    private AudioSource audioSource;
 
     public int score { get; private set; } = 0;
     public int lives { get; private set; } = 3;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
+           
         if (Instance != null) {
             DestroyImmediate(gameObject);
         } else {
@@ -36,6 +40,13 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+    // Start playing the background music and loop it
+       
+    if (backgroundMusic != null && audioSource != null)
+        {
+        audioSource.clip = backgroundMusic;
+        audioSource.loop = true;  // Make sure the music loop            audioSource.Play();
+        }
         player = FindObjectOfType<Player>();
         invaders = FindObjectOfType<Invaders>();
         mysteryShip = FindObjectOfType<MysteryShip>();

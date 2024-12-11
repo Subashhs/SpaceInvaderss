@@ -7,6 +7,8 @@ public class Invaders : MonoBehaviour
     public AnimationCurve speed = new AnimationCurve();
     private Vector3 direction = Vector3.right;
     private Vector3 initialPosition;
+    public AudioClip explosionSound;  // The sound to play when the invader is destroyed
+    private AudioSource audioSource;
 
     [Header("Grid")]
     public int rows = 5;
@@ -18,6 +20,7 @@ public class Invaders : MonoBehaviour
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         initialPosition = transform.position;
 
         CreateInvaderGrid();
@@ -136,6 +139,15 @@ public class Invaders : MonoBehaviour
         foreach (Transform invader in transform) {
             invader.gameObject.SetActive(true);
         }
+    }
+    public void OnHitByLaser()
+    {
+        if (explosionSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(explosionSound); // Play the explosion sound
+        }
+
+        Destroy(gameObject);  // Destroy the invader after playing the sound
     }
 
     public int GetAliveCount()
