@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/SpaceInvaders.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SpaceInvadersMultiplayer.unity
+    path: Assets/Scenes/Multiplayer.unity
     guid: 52243f9b6ecf5794287158c6695365ca
   m_configObjects: {}

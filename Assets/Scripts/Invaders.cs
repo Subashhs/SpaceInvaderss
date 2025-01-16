@@ -7,8 +7,6 @@ public class Invaders : MonoBehaviour
     public AnimationCurve speed = new AnimationCurve();
     private Vector3 direction = Vector3.right;
     private Vector3 initialPosition;
-    public AudioClip explosionSound;  // The sound to play when the invader is destroyed
-    private AudioSource audioSource;
 
     [Header("Grid")]
     public int rows = 5;
@@ -20,7 +18,6 @@ public class Invaders : MonoBehaviour
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
         initialPosition = transform.position;
 
         CreateInvaderGrid();
@@ -59,14 +56,16 @@ public class Invaders : MonoBehaviour
         int amountAlive = GetAliveCount();
 
         // No missiles should spawn when no invaders are alive
-        if (amountAlive == 0) {
+        if (amountAlive == 0)
+        {
             return;
         }
 
         foreach (Transform invader in transform)
         {
             // Any invaders that are killed cannot shoot missiles
-            if (!invader.gameObject.activeInHierarchy) {
+            if (!invader.gameObject.activeInHierarchy)
+            {
                 continue;
             }
 
@@ -102,7 +101,8 @@ public class Invaders : MonoBehaviour
         foreach (Transform invader in transform)
         {
             // Skip any invaders that have been killed
-            if (!invader.gameObject.activeInHierarchy) {
+            if (!invader.gameObject.activeInHierarchy)
+            {
                 continue;
             }
 
@@ -136,18 +136,10 @@ public class Invaders : MonoBehaviour
         direction = Vector3.right;
         transform.position = initialPosition;
 
-        foreach (Transform invader in transform) {
+        foreach (Transform invader in transform)
+        {
             invader.gameObject.SetActive(true);
         }
-    }
-    public void OnHitByLaser()
-    {
-        if (explosionSound != null && audioSource != null)
-        {
-            audioSource.PlayOneShot(explosionSound); // Play the explosion sound
-        }
-
-        Destroy(gameObject);  // Destroy the invader after playing the sound
     }
 
     public int GetAliveCount()
@@ -156,7 +148,8 @@ public class Invaders : MonoBehaviour
 
         foreach (Transform invader in transform)
         {
-            if (invader.gameObject.activeSelf) {
+            if (invader.gameObject.activeSelf)
+            {
                 count++;
             }
         }

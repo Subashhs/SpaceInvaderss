@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class TextClickChangeScene : MonoBehaviour, IPointerClickHandler
+public class TextClickChangeScene : UIBehaviour, IPointerClickHandler
 {
     [SerializeField] private string targetSceneName = "SpaceInvaders"; // Replace with your target scene name.
 

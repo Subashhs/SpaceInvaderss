@@ -28,7 +28,8 @@ public class Invader : MonoBehaviour
         animationFrame++;
 
         // Loop back to the start if the animation frame exceeds the length
-        if (animationFrame >= animationSprites.Length) {
+        if (animationFrame >= animationSprites.Length)
+        {
             animationFrame = 0;
         }
 
@@ -37,9 +38,12 @@ public class Invader : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Laser")) {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Laser"))
+        {
             GameManager.Instance.OnInvaderKilled(this);
-        } else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary")) {
+        }
+        else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary"))
+        {
             GameManager.Instance.OnBoundaryReached();
         }
     }

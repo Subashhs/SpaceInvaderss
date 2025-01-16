@@ -3,7 +3,12 @@ guid: 459f605e13eced949a32904be2fa0a25
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameOverUI: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  - scoreText2: {instanceID: 0}
+  - livesText: {instanceID: 0}
+  - livesText2: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

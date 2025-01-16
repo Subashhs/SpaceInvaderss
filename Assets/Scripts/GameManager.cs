@@ -6,33 +6,27 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // UI References
+    [Header("UI Elements")]
     [SerializeField] private GameObject gameOverUI;
-    [SerializeField] private Text scoreText1;
+    [SerializeField] private Text scoreText;
     [SerializeField] private Text scoreText2;
-    [SerializeField] private Text livesText1;
+    [SerializeField] private Text livesText;
     [SerializeField] private Text livesText2;
 
-    // Player and game-related references
-    private Player player1;
-    private Player player2;
+    [Header("Game Elements")]
+    private Player player;
+    private Player2 player2; // Assuming Player2 script exists
     private Invaders invaders;
     private MysteryShip mysteryShip;
     private Bunker[] bunkers;
-    public AudioClip backgroundMusic;  // The background music to play
-    private AudioSource audioSource;
 
-    // Player scores and lives
-    public int score1 { get; private set; } = 0;
+    public int score { get; private set; } = 0;
     public int score2 { get; private set; } = 0;
-    public int lives1 { get; private set; } = 3;
+    public int lives { get; private set; } = 3;
     public int lives2 { get; private set; } = 3;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
-
-        // Ensures only one GameManager instance exists
         if (Instance != null)
         {
             DestroyImmediate(gameObject);
@@ -53,30 +47,35 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Start playing the background music and loop it
-        if (backgroundMusic != null && audioSource != null)
-        {
-            audioSource.clip = backgroundMusic;
-            audioSource.loop = true;  // Make sure the music loops
-            audioSource.Play(); // Start playing the background music
-        }
-
-        // Find the players in the scene
-        player1 = FindObjectsOfType<Player>()[0]; // Assuming Player 1 is the first in the scene
-        player2 = FindObjectsOfType<Player>()[1]; // Assuming Player 2 is the second in the scene
+        player = FindObjectOfType<Player>();
+        player2 = FindObjectOfType<Player2>();
         invaders = FindObjectOfType<Invaders>();
         mysteryShip = FindObjectOfType<MysteryShip>();
         bunkers = FindObjectsOfType<Bunker>();
 
+        // Start a new game
         NewGame();
+
+        // If both players start with 0 lives, show the game over UI initially.
+        if (lives <= 0 && lives2 <= 0)
+        {
+            gameOverUI.SetActive(true);
+        }
+        else
+        {
+            gameOverUI.SetActive(false);
+        }
     }
 
     private void Update()
     {
-        // Restart the game if no lives are left and Return key is pressed
-        if ((lives1 <= 0 && lives2 <= 0) && Input.GetKeyDown(KeyCode.Return))
+        // Only check for restarting if the game is over
+        if (lives <= 0 && lives2 <= 0)
         {
-            NewGame();
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                NewGame();
+            }
         }
     }
 
@@ -84,12 +83,10 @@ public class GameManager : MonoBehaviour
     {
         gameOverUI.SetActive(false);
 
-        // Reset the UI for Player 1 and Player 2
-        SetScore1(0);
+        SetScore(0);
         SetScore2(0);
-        SetLives1(3);
+        SetLives(3);
         SetLives2(3);
-
         NewRound();
     }
 
@@ -98,62 +95,69 @@ public class GameManager : MonoBehaviour
         invaders.ResetInvaders();
         invaders.gameObject.SetActive(true);
 
-        for (int i = 0; i < bunkers.Length; i++)
+        foreach (var bunker in bunkers)
         {
-            bunkers[i].ResetBunker();
+            bunker.ResetBunker();
         }
 
-        Respawn();
+        RespawnPlayers();
     }
 
-    private void Respawn()
+    private void RespawnPlayers()
     {
-        // Custom respawn position for players
-        player1.transform.position = new Vector3(-3f, -4f, 0f); // Position Player 1 on the left
-        player2.transform.position = new Vector3(3f, -4f, 0f);  // Position Player 2 on the right
-        player1.gameObject.SetActive(true);
-        player2.gameObject.SetActive(true);
+        RespawnPlayer(player);
+        RespawnPlayer(player2);
+    }
+
+    private void RespawnPlayer(MonoBehaviour player)
+    {
+        if (player == null) return;
+
+        Vector3 position = player.transform.position;
+        position.x = 0f;
+        player.transform.position = position;
+        player.gameObject.SetActive(true);
     }
 
     private void GameOver()
     {
         gameOverUI.SetActive(true);
         invaders.gameObject.SetActive(false);
-        audioSource.Stop(); // Stop background music
     }
 
-    private void SetScore1(int score)
+    private void SetScore(int newScore)
     {
-        score1 = score;
-        scoreText1.text = score1.ToString().PadLeft(4, '0');
+        score = newScore;
+        scoreText.text = score.ToString().PadLeft(4, '0');
     }
 
-    private void SetScore2(int score)
+    private void SetScore2(int newScore2)
     {
-        score2 = score;
+        score2 = newScore2;
         scoreText2.text = score2.ToString().PadLeft(4, '0');
     }
 
-    private void SetLives1(int lives)
+    private void SetLives(int newLives)
     {
-        lives1 = Mathf.Max(lives, 0);
-        livesText1.text = lives1.ToString();
+        lives = Mathf.Max(newLives, 0);
+        livesText.text = lives.ToString();
     }
 
-    private void SetLives2(int lives)
+    private void SetLives2(int newLives2)
     {
-        lives2 = Mathf.Max(lives, 0);
+        lives2 = Mathf.Max(newLives2, 0);
         livesText2.text = lives2.ToString();
     }
 
-    public void OnPlayer1Killed(Player player)
+    public void OnPlayerKilled(Player player)
     {
-        SetLives1(lives1 - 1);
-        player1.gameObject.SetActive(false);
+        SetLives(lives - 1);
 
-        if (lives1 > 0)
+        player.gameObject.SetActive(false);
+
+        if (lives > 0 || lives2 > 0)
         {
-            Invoke(nameof(NewRound), 1f); // Brief delay before new round starts
+            Invoke(nameof(NewRound), 1f);
         }
         else
         {
@@ -161,14 +165,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnPlayer2Killed(Player player)
+    public void OnPlayerKilled(Player2 player2)
     {
         SetLives2(lives2 - 1);
+
         player2.gameObject.SetActive(false);
 
-        if (lives2 > 0)
+        if (lives > 0 || lives2 > 0)
         {
-            Invoke(nameof(NewRound), 1f); // Brief delay before new round starts
+            Invoke(nameof(NewRound), 1f);
         }
         else
         {
@@ -180,15 +185,7 @@ public class GameManager : MonoBehaviour
     {
         invader.gameObject.SetActive(false);
 
-        // Assume that invader score is assigned correctly in Invader class
-        if (invader.isPlayer1Target)
-        {
-            SetScore1(score1 + invader.score); // Player 1 kills invader
-        }
-        else
-        {
-            SetScore2(score2 + invader.score); // Player 2 kills invader
-        }
+        SetScore(score + invader.score);
 
         if (invaders.GetAliveCount() == 0)
         {
@@ -198,23 +195,24 @@ public class GameManager : MonoBehaviour
 
     public void OnMysteryShipKilled(MysteryShip mysteryShip)
     {
-        if (mysteryShip.isPlayer1Target)
-        {
-            SetScore1(score1 + mysteryShip.score); // Player 1 gets the score
-        }
-        else
-        {
-            SetScore2(score2 + mysteryShip.score); // Player 2 gets the score
-        }
+        SetScore(score + mysteryShip.score);
+        SetScore2(score2 + mysteryShip.score);
     }
 
     public void OnBoundaryReached()
     {
-        // Handle boundary reached by invaders
         if (invaders.gameObject.activeSelf)
         {
             invaders.gameObject.SetActive(false);
-            OnPlayer1Killed(player1); // Handle Player 1's death when boundary reached
+
+            if (player.gameObject.activeSelf)
+            {
+                OnPlayerKilled(player);
+            }
+            if (player2.gameObject.activeSelf)
+            {
+                OnPlayerKilled(player2);
+            }
         }
     }
 }

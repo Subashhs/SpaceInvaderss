@@ -2,9 +2,9 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
-public class Multiplayer : MonoBehaviour, IPointerClickHandler
+public class Multiplayer : UIBehaviour, IPointerClickHandler
 {
-    [SerializeField] private string targetSceneName = "SpaceInvadersMultiplayer"; // Replace with your target scene name.
+    [SerializeField] private string targetSceneName = "Multiplayer"; // Replace with your target scene name.
 
     void Start()
     {
@@ -19,8 +19,8 @@ public class Multiplayer : MonoBehaviour, IPointerClickHandler
     {
         if (!string.IsNullOrEmpty(targetSceneName))
         {
-            Debug.Log("Loading Scene: " + targetSceneName);
-            SceneManager.LoadScene(targetSceneName);
+            Debug.Log("Loading Scene: " + targetSceneName);  // Use the variable targetSceneName
+            SceneManager.LoadScene(targetSceneName);  // Use the variable targetSceneName
         }
         else
         {

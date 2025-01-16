@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 33052392596605684}
   - component: {fileID: 33052392596605687}
   - component: {fileID: 33052392596605686}
+  - component: {fileID: 1882657290293091718}
   m_Layer: 10
   m_Name: Laser
   m_TagString: Untagged
@@ -143,5 +144,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59b02e3b611e0b54aaeaafe98c3a758e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 40
   direction: {x: 0, y: 1, z: 0}
+  speed: 40
+--- !u!114 &1882657290293091718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33052392596605683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 1
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0

@@ -6,7 +6,7 @@ public class Projectile : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
     public Vector3 direction = Vector3.up;
-    public float speed = 20f;
+    public float speed = 30f;
 
     private void Awake()
     {

@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TextHoverColorChange : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class TextHoverColorChange : UIBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Text textComponent;
     [SerializeField] private Color hoverColor = Color.green; // Color when the mouse hovers.
